@@ -5,10 +5,9 @@ metadata:
   labels:
    io.kompose.service: prometheus-data
    name: prometheus-data
-
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 200Mi
