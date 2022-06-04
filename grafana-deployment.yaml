@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-demo
+  labels:
+    io.kompose.service: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: grafana
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: grafana
+    spec:
+      volumes:
+        - name: grafana-config-volume
+          configMap:
+            defaultMode: 420
+            name: grafana-config
+      containers:
+        - env:
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              # value: grafana
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secret
+                  key: grafana-admin-password
+            - name: GF_SECURITY_ADMIN_USER
+              # value: admin
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-secret
+                  key: grafana-admin-user
+
+          image: grafana/grafana
+          name: grafana
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - mountPath: /etc/grafana/provisioning/datasources
+              name: grafana-config-volume
+      restartPolicy: Always
+
