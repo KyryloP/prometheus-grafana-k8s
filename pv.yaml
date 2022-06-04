@@ -10,7 +10,3 @@ spec:
   storageClassName: standard
   accessModes:
     - ReadWriteMany
-  gcePersistentDisk:
-    pdName: prometheus-data
-    fsType: ext4
-    readOnly: false
