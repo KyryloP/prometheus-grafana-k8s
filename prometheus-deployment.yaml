@@ -17,7 +17,7 @@ spec:
         io.kompose.service: prometheus
     spec:
       volumes:
-        - name: prometheus-config-volume
+        - name: prometheus-config
           configMap:
             defaultMode: 420
             name: prometheus-config
@@ -33,7 +33,7 @@ spec:
             - containerPort: 9090
           volumeMounts:
             - mountPath: /etc/prometheus
-              name: prometheus-config-volume
+              name: prometheus-config
             - mountPath: /prometheus
               name: prometheus-data
       restartPolicy: Always
